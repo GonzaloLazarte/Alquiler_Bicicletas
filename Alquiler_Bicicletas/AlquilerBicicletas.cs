@@ -7,6 +7,7 @@ using System.IO;
 
 namespace Alquiler_Bicicletas {
     internal class AlquilerBicicletas {
+
         private readonly string archivo_bici = Path.Combine("Datos", "bicis.txt");
 
         public void EjecutarServicioAlquiler() {

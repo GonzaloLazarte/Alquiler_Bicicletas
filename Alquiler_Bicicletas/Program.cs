@@ -8,10 +8,8 @@ using System.IO;
 namespace Alquiler_Bicicletas {
     internal class Program {
         static void Main(string[] args) {
-           
             MenuAlquilerBici menu = new MenuAlquilerBici();
             menu.EjecutarMenu();
-
         }
     }
 }
