@@ -20,10 +20,9 @@ namespace Alquiler_Bicicletas {
                 Console.WriteLine("3) - DEVOLVER BICICLETA");
                 Console.WriteLine("");
                 Console.WriteLine("====================================================================================");
-                Console.Write("PORFAVOR SELECCIONE UNA OPCION: >> ");
+                Console.Write("PORFAVOR SELECCIONE UNA OPCION: > ");
                 if (int.TryParse(Console.ReadLine(), out opcion) && opcion >= 1 && opcion <= 3) {
                     servicio = new AlquilerBicicletas(opcion);
-
                 }
                 else {
                     Console.WriteLine("!!!!!!!! OPCION INVALIDA, POR FAVOR INGRESE UN NUMERO VALIDO !!!!!!!!");

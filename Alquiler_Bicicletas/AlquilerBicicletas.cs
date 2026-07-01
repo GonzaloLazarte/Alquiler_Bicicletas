@@ -36,14 +36,17 @@ namespace Alquiler_Bicicletas {
 
             Console.WriteLine("============================== Complete el formulario de retiro ==============================");
             Console.WriteLine("");
-            Console.Write("Ingrese el Id de la bicicleta: > ");
             Id = ValidarId();
+            if (ExisteBici(Id)) {
+                Console.WriteLine("La bicicleta con ID " + Id + " ya ha sido retirada.");
+                return;
+            }
 
             Console.Write("Ingrese el Nombre del usuario: > ");
             NombreUsuario = Console.ReadLine();
 
             Console.Write("Ingrese el precio por hora: > ");
-            PrecioPorHora = double.Parse(Console.ReadLine());
+            PrecioPorHora = ValidarPrecio();
 
             Bicicletas bici = new Bicicletas(Id, NombreUsuario, HoraSalida, PrecioPorHora);
             StreamWriter sw = new StreamWriter(archivo_bici, true);
@@ -56,9 +59,10 @@ namespace Alquiler_Bicicletas {
 
             Console.ReadKey();
         }
-        public int ValidarId() {
+        private int ValidarId() {
             int _id = 0;
             while (true) {
+                Console.Write("Ingresar Id de la bicicleta> ");
                 if (int.TryParse(Console.ReadLine(), out _id) && _id >= 0 && _id <= 9999) {
                     break;
                 }
@@ -67,6 +71,30 @@ namespace Alquiler_Bicicletas {
                 }
             }
             return _id;
+        }
+        private double ValidarPrecio() {
+            double _precio = 0;
+            while (true) {
+                Console.Write("Ingresar Precio por hora> ");
+                if (double.TryParse(Console.ReadLine(), out _precio) && _precio >= 0) {
+                    break;
+                }
+                else {
+                    Console.WriteLine("!!!!!!!! PRECIO INVALIDO, POR FAVOR INGRESE UN NUMERO VALIDO !!!!!!!!");
+                }
+            }
+            return _precio;
+        }
+        private bool ExisteBici(int _id) {
+            string[] lineas = File.ReadAllLines(archivo_bici);
+
+            foreach (string linea in lineas) {
+                string[] datos = linea.Split('|');
+                if (int.Parse(datos[0]) == _id) {
+                    return true;
+                }
+            }
+            return false;
         }
         private void Mostrar() {
             Console.Clear();
@@ -93,13 +121,19 @@ namespace Alquiler_Bicicletas {
             bool buscar = false;
             double precio = 0, horas = 0, total = 0;
 
-            Console.Clear();
-            Console.Write("Ingrese Id de la bicicleta : > ");
-            id = ValidarId();
-
             string[] lineas = File.ReadAllLines(archivo_bici);
 
             List<string> nuevasLineas = new List<string>();
+
+            if (lineas.Length == 0) {
+                Console.Clear();
+                Console.WriteLine("No hay bicicletas retiradas.");
+                Console.ReadKey();
+                return;
+            }
+
+            Console.Clear();
+            id = ValidarId();
 
             foreach (string linea in lineas) {
                 string[] datos = linea.Split('|');
@@ -135,6 +169,7 @@ namespace Alquiler_Bicicletas {
                 return;
             }
             File.WriteAllLines(archivo_bici, nuevasLineas);
+            Console.ReadKey();
 
         }
 
