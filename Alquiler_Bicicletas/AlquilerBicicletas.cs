@@ -8,19 +8,19 @@ using System.IO;
 namespace Alquiler_Bicicletas {
     internal class AlquilerBicicletas {
 
-        private readonly string archivo_bici = Path.Combine("Datos", "bicis.txt");
-
+        private readonly string archivo_bici = Path.Combine("Datos", "bicis.txt");  // Define la ruta de acceso del archivo donde guardamos la información de las bicicletas retiradas.
+                                                                                    //path.combine crea una ruta  es como el nombre de la ruta unicamente
         public void EjecutarServicioAlquiler() {
             InicializarArchivo();
         }
         private void InicializarArchivo() {
-            Directory.CreateDirectory("Datos");
+            Directory.CreateDirectory("Datos");             //iniciamos el directorio "Datos"
 
-            if (!File.Exists(archivo_bici)) {
+            if (!File.Exists(archivo_bici)) {               //verificamos si existe el archivo de texto, si no existe lo creamos
                 File.Create(archivo_bici).Close();
             }
         }
-        private int ValidarId() {
+        private int ValidarId() {                           //validacion
             int _id = 0;
             while (true) {
                 Console.Write("Ingresar Id de la bicicleta> ");
@@ -33,7 +33,7 @@ namespace Alquiler_Bicicletas {
             }
             return _id;
         }
-        private double ValidarPrecio() {
+        private double ValidarPrecio() {                    //validacion
             double _precio = 0;
             while (true) {
                 Console.Write("Ingresar Precio por hora> ");
@@ -46,22 +46,22 @@ namespace Alquiler_Bicicletas {
             }
             return _precio;
         }
-        private bool ExisteBici(int _id) {
-            string[] lineas = File.ReadAllLines(archivo_bici);
+        private bool ExisteBici(int _id) {                      //validacion para evitar duplicados en las bicicletas retiradas y devuelve si existe o no
+            string[] lineas = File.ReadAllLines(archivo_bici);  
 
-            foreach (string linea in lineas) {
-                string[] datos = linea.Split('|');
-                if (int.Parse(datos[0]) == _id) {
-                    return true;
+            foreach (string linea in lineas) {                 
+                string[] datos = linea.Split('|');              
+                if (int.Parse(datos[0]) == _id) {              
+                    return true;                               
                 }
             }
-            return false;
+            return false;                                      
         }
-        public void Retirar() {
+        public void Retirar() {                                 //metodo que registra el retiro de una bicicleta 
             Console.Clear();
             int Id = 0;
             string NombreUsuario = string.Empty;
-            DateTime HoraSalida = DateTime.Now;
+            DateTime HoraSalida = DateTime.Now;                 // almacena en la variable la hora actual del sistema
             double PrecioPorHora = 0;
 
             Console.WriteLine("============================== Complete el formulario de retiro ==============================");
@@ -72,16 +72,17 @@ namespace Alquiler_Bicicletas {
                 return;
             }
 
-            Console.Write("Ingrese el Nombre del usuario: > ");
+            Console.Write("Ingrese el Nombre del usuario: ");
             NombreUsuario = Console.ReadLine();
 
-            Console.Write("Ingrese el precio por hora: > ");
+            Console.Write("Ingrese el precio por hora: $ ");
             PrecioPorHora = ValidarPrecio();
 
             Bicicletas bici = new Bicicletas(Id, NombreUsuario, HoraSalida, PrecioPorHora);
-            StreamWriter sw = new StreamWriter(archivo_bici, true);
 
-            sw.WriteLine(bici.IdBicletas + "|" + bici.NombreUsuario + "|" + bici.HoraSalida + "|" + bici.PrecioPorHora);
+            StreamWriter sw = new StreamWriter(archivo_bici, true);  //sw objeto de tipo StreamWriter que permite escribir en el archivo de texto
+
+            sw.WriteLine(bici.IdBicletas + "|" + bici.NombreUsuario + "|" + bici.HoraSalida + "|" + bici.PrecioPorHora); //escribe en el archivo los datos ingresados
             sw.Close();
 
             Console.WriteLine();
@@ -89,7 +90,7 @@ namespace Alquiler_Bicicletas {
 
             Console.ReadKey();
         }
-        public void Mostrar() {
+        public void Mostrar() {                        //metodo que recorre el archivo y muestra su contenido en pantalla
             Console.Clear();
             string[] lineas = File.ReadAllLines(archivo_bici);
 

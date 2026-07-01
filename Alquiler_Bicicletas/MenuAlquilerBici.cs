@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace Alquiler_Bicicletas {
     internal class MenuAlquilerBici {
-        static AlquilerBicicletas servicio = new AlquilerBicicletas();
+        static AlquilerBicicletas servicio = new AlquilerBicicletas();  //instanciamos un objeto servicio para acceder a las propiedades de la clase alquilerBicicletas
         public void EjecutarMenu() {
+            servicio.EjecutarServicioAlquiler(); // ejecuta el metodo del objeto servicio que inicializa el archivo de bicicletas
             int opcion = 0;
             while (true) {
                 Console.Clear();
@@ -20,12 +21,11 @@ namespace Alquiler_Bicicletas {
                 Console.WriteLine("");
                 Console.WriteLine("====================================================================================");
                 Console.Write("PORFAVOR SELECCIONE UNA OPCION: > ");
-                if (int.TryParse(Console.ReadLine(), out opcion) && opcion >= 1 && opcion <= 3) {
-                    servicio.EjecutarServicioAlquiler();
+                if (int.TryParse(Console.ReadLine(), out opcion) && opcion >= 1 && opcion <= 3) {    //de validacion de la opcion ingresada
                     switch (opcion) {
-                        case 1: servicio.Retirar(); break;
-                        case 2: servicio.Mostrar(); break;
-                        case 3: servicio.Devolver(); break;
+                        case 1: servicio.Retirar(); break;              // 
+                        case 2: servicio.Mostrar(); break;              //ejecutan los respectivos metodos del objeto servicio segun la opcion seleccionada
+                        case 3: servicio.Devolver(); break;             //
                     }
                 }
                 else {

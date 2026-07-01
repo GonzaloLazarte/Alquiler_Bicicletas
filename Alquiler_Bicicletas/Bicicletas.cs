@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Alquiler_Bicicletas {
-    internal class Bicicletas {
+    internal class Bicicletas {  //clase que representa una bicicleta retirada
         public int IdBicletas { get; set; }
         public string NombreUsuario { get; set; }
         public DateTime HoraSalida { get; set; }
