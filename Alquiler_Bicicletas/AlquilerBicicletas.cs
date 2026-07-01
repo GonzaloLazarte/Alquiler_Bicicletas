@@ -9,15 +9,8 @@ namespace Alquiler_Bicicletas {
     internal class AlquilerBicicletas {
         private readonly string archivo_bici = Path.Combine("Datos", "bicis.txt");
 
-        public AlquilerBicicletas(int _opcion) {
-
-            InicializarArchivo();      
-
-            switch (_opcion) {
-                case 1: Retirar(); break;
-                case 2: Mostrar(); break;
-                case 3: Devolver(); break;
-            }
+        public void EjecutarServicioAlquiler() {
+            InicializarArchivo();
         }
         private void InicializarArchivo() {
             Directory.CreateDirectory("Datos");
@@ -25,39 +18,6 @@ namespace Alquiler_Bicicletas {
             if (!File.Exists(archivo_bici)) {
                 File.Create(archivo_bici).Close();
             }
-        }
-
-        private void Retirar() {
-            Console.Clear();
-            int Id = 0;
-            string NombreUsuario = string.Empty;
-            DateTime HoraSalida = DateTime.Now;
-            double PrecioPorHora = 0;
-
-            Console.WriteLine("============================== Complete el formulario de retiro ==============================");
-            Console.WriteLine("");
-            Id = ValidarId();
-            if (ExisteBici(Id)) {
-                Console.WriteLine("La bicicleta con ID " + Id + " ya ha sido retirada.");
-                return;
-            }
-
-            Console.Write("Ingrese el Nombre del usuario: > ");
-            NombreUsuario = Console.ReadLine();
-
-            Console.Write("Ingrese el precio por hora: > ");
-            PrecioPorHora = ValidarPrecio();
-
-            Bicicletas bici = new Bicicletas(Id, NombreUsuario, HoraSalida, PrecioPorHora);
-            StreamWriter sw = new StreamWriter(archivo_bici, true);
-
-            sw.WriteLine( bici.IdBicletas + "|" + bici.NombreUsuario + "|" + bici.HoraSalida + "|" + bici.PrecioPorHora);
-            sw.Close();
-
-            Console.WriteLine();
-            Console.WriteLine("Bicicleta retirada correctamente.");
-
-            Console.ReadKey();
         }
         private int ValidarId() {
             int _id = 0;
@@ -96,7 +56,39 @@ namespace Alquiler_Bicicletas {
             }
             return false;
         }
-        private void Mostrar() {
+        public void Retirar() {
+            Console.Clear();
+            int Id = 0;
+            string NombreUsuario = string.Empty;
+            DateTime HoraSalida = DateTime.Now;
+            double PrecioPorHora = 0;
+
+            Console.WriteLine("============================== Complete el formulario de retiro ==============================");
+            Console.WriteLine("");
+            Id = ValidarId();
+            if (ExisteBici(Id)) {
+                Console.WriteLine("La bicicleta con ID " + Id + " ya ha sido retirada.");
+                return;
+            }
+
+            Console.Write("Ingrese el Nombre del usuario: > ");
+            NombreUsuario = Console.ReadLine();
+
+            Console.Write("Ingrese el precio por hora: > ");
+            PrecioPorHora = ValidarPrecio();
+
+            Bicicletas bici = new Bicicletas(Id, NombreUsuario, HoraSalida, PrecioPorHora);
+            StreamWriter sw = new StreamWriter(archivo_bici, true);
+
+            sw.WriteLine(bici.IdBicletas + "|" + bici.NombreUsuario + "|" + bici.HoraSalida + "|" + bici.PrecioPorHora);
+            sw.Close();
+
+            Console.WriteLine();
+            Console.WriteLine("Bicicleta retirada correctamente.");
+
+            Console.ReadKey();
+        }
+        public void Mostrar() {
             Console.Clear();
             string[] lineas = File.ReadAllLines(archivo_bici);
 
@@ -116,7 +108,7 @@ namespace Alquiler_Bicicletas {
             }
             Console.ReadKey();
         }
-        private void Devolver() {
+        public void Devolver() {
             int id = 0;
             bool buscar = false;
             double precio = 0, horas = 0, total = 0;
